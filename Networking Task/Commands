@@ -1,0 +1,6 @@
+nslookup guvi.in
+ping guvi.in
+htop
+
+nc -zv guvi.com 9000
+sudo netstat -tulnp | grep :9000

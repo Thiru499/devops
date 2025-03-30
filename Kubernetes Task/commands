@@ -1,0 +1,5 @@
+minikube version
+minikube start
+minikube status
+
+kubectl create namespace test

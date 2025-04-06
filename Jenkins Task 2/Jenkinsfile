@@ -1,0 +1,35 @@
+pipeline {
+    agent any
+
+    stages {
+        stage('Run Script') {
+            steps {
+                sh './hello.sh'
+            }
+        }
+
+        stage('Archive Output') {
+            steps {
+                archiveArtifacts artifacts: 'build_output.txt', allowEmptyArchive: true
+            }
+        }
+    }
+
+    post {
+        always {
+            emailext(
+                subject: "Jenkins Build: ${currentBuild.currentResult} - ${env.JOB_NAME} #${env.BUILD_NUMBER}",
+                body: """
+                    Jenkins Build Result: ${currentBuild.currentResult}
+
+                    Project: ${env.JOB_NAME}
+                    Build Number: ${env.BUILD_NUMBER}
+                    Build URL: ${env.BUILD_URL}
+
+                    Check the build artifacts for output.
+                """,
+                to: 'thirunammu2815@gmail.com'
+            )
+        }
+    }
+}
